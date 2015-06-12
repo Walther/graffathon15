@@ -1,8 +1,8 @@
 // Korkkii & Walther @ Graffathon 2015
 
 
-int CANVAS_WIDTH = 512;
-int CANVAS_HEIGHT = 512;
+int CANVAS_WIDTH = 1280;
+int CANVAS_HEIGHT = 700;
 
 void setup() {
     // Set up the drawing area size and renderer (usually P2D or P3D,
@@ -29,31 +29,44 @@ void drawDemo(int time) {
     background(22, 22, 22);
     fill(s%256, s%256, s%256);
 
-    // Rotate whole viewport
-    pushMatrix();
-    rotateY(PI*c/10);
 
-    // Draw cubes
-    for (int x=32; x<512; x+=32) {
-        for (int y=32; y<512; y+=32) {
-            for (int z=32; z<512; z+=32) {
-                pushMatrix();
-                discoCube(x, y, z, t);
-                popMatrix();
+    // Define big cube width
+    int C_width = 512;
+    // Define small cube width
+    int c_width = 16;
+
+    // Center the big cube
+    translate(CANVAS_WIDTH/2 - C_width/2, 0, 0);
+    translate(0, CANVAS_HEIGHT/2 - C_width/2, 0);
+
+    // Rotate big cube along its center axis
+    pushMatrix();
+    translate(C_width/2, 0, -C_width/2);
+    rotateY(PI*c/10);
+    translate(-C_width/2, 0, C_width/2);
+
+    // Draw the small cubes to form a big meta-cube
+    for (int x=0; x<=C_width; x+=32) {
+        for (int y=0; y<=C_width; y+=32) {
+            for (int z=0; z<=C_width; z+=32) {
+                discoCube(x, y, z, c_width, t);
             }
         }
     }
-    popMatrix(); // actually do the rotate after cubes have been drawn
+    popMatrix();
 }
 
-void discoCube(int x, int y, int z, float t) {
+// A disco cube is a blinking, rotating cube at x,y
+void discoCube(int x, int y, int z, int c_width, float t) {
+    pushMatrix();
     translate(x, y, -z);
     pushMatrix();
     rotateY((float) t/1000);
-    box(16);
+    box(c_width);
     translate(-x, -y);
     popMatrix();
     lights();
+    popMatrix();
 }
 
 void draw() {
