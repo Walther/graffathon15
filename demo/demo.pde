@@ -19,14 +19,21 @@ void setup() {
 }
 
 void drawDemo(int time) {
-    //text("Hello, Graffathon!", 100, 100);
-    //text("Current tick is: " + tick, 100, 120);
 
+    // Define some useful timescales
     float t = millis();
-    float s = millis()/10;
+    float s = (float) millis()/10;
+    float c = (float) millis()/1000;
 
+    // Define colors
     background(22, 22, 22);
     fill(s%256, s%256, s%256);
+
+    // Rotate whole viewport
+    pushMatrix();
+    rotateY(PI*c/10);
+
+    // Draw cubes
     for (int x=32; x<512; x+=32) {
         for (int y=32; y<512; y+=32) {
             for (int z=32; z<512; z+=32) {
@@ -36,7 +43,7 @@ void drawDemo(int time) {
             }
         }
     }
-
+    popMatrix(); // actually do the rotate after cubes have been drawn
 }
 
 void discoCube(int x, int y, int z, float t) {
