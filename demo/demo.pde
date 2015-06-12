@@ -29,16 +29,18 @@ void drawDemo(int time) {
     fill(s%256, s%256, s%256);
     for (int x=32; x<512; x+=32) {
         for (int y=32; y<512; y+=32) {
-            pushMatrix();
-            discoCube(x, y, t);
-            popMatrix();
+            for (int z=32; z<512; z+=32) {
+                pushMatrix();
+                discoCube(x, y, z, t);
+                popMatrix();
+            }
         }
     }
 
 }
 
-void discoCube(int x, int y, float t) {
-    translate(x, y);
+void discoCube(int x, int y, int z, float t) {
+    translate(x, y, -z);
     pushMatrix();
     rotateY((float) t/1000);
     box(16);
