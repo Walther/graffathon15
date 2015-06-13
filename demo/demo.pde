@@ -35,12 +35,13 @@ void draw() {
     // Loading text, so that the effects don't start before the screen is actually drawn
     if (t<10) {
       String message = "Loading";
+      String collaborators = "Korkki & Walther";
       int phase = (int) t / 2;
       for (int i = 0; i < phase; i++) {
         message += '.';
       }
       text(message, 150, 150, 0);
-      text("Korkki & Walther", CANVAS_WIDTH - 150, CANVAS_HEIGHT - 30, 0);
+      text(collaborators, CANVAS_WIDTH - 190, CANVAS_HEIGHT - 100, 0);
     } else { // After loading period, start main draw
 
         // Define initial width of the biggest cube
@@ -54,9 +55,9 @@ void draw() {
             translate(0, 0, (512 - abs(512 - (t*100)%1024)));
         }
         // More rotates after more time
-        if (t>30) {
+        /*if (t>30) {
             rotateX(t/2);
-        }
+        }*/
 
 
         bigCube(W, t);
@@ -88,7 +89,7 @@ void bigCube(int C_width, float t) {
     for (int x=0; x<=W; x+=W/n) {
         for (int y=0; y<=W; y+=W/n) {
             for (int z=0; z<=W; z+=W/n) {
-                if (W > 256) {
+                if (W > 256 && t > 40) {
                     pushMatrix();
                     translate(x, y, z);
                     bigCube(w, t);
