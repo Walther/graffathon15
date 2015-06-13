@@ -12,7 +12,6 @@ void setup() {
 
     // Drawing options that don't change, modify as you wish
     frameRate(60);
-    //noStroke();
     fill(255);
     smooth();
 
@@ -22,34 +21,60 @@ void drawDemo(int time) {
 
     // Define some useful timescales
     float t = millis();
-    float s = (float) millis()/10;
-    float c = (float) millis()/1000;
 
     // Define colors
     background(22, 22, 22);
-    fill(s%256, s%256, s%256);
+    int col = (int) abs(255-(t/10)%512); // Back-and-forth grayscale
+    fill(col, col, col);
 
+
+    // Zoom a bit
+    translate(0, 0, -256);
+
+    // Zoom in and out based on tick
+    translate(0, 0, abs(256 - (t/10)%512));
+
+
+    // Define initial width of the biggest cube
+    int W = 512;
+    // Center the big cube
+    translate(CANVAS_WIDTH/2 - W/2, 0, 0);
+    translate(0, CANVAS_HEIGHT/2 - W/2, 0);
+
+    bigCube(W, t);
+
+    // End of drawing content to frame, hit the lights!
+    lights();
+}
+
+void bigCube(int C_width, float t) {
 
     // Define big cube width
-    int C_width = 512;
+    int W = C_width;
+    // Define amount of small cubes per side of big cube
+    //int n = (int) abs(16 - (t/1000)%32);
+    int n = 8;
+    if (n == 0) { n=2; };
     // Define small cube width
-    int c_width = 16;
-
-    // Center the big cube
-    translate(CANVAS_WIDTH/2 - C_width/2, 0, 0);
-    translate(0, CANVAS_HEIGHT/2 - C_width/2, 0);
+    int w = C_width / (n*2);
 
     // Rotate big cube along its center axis
     pushMatrix();
-    translate(C_width/2, 0, -C_width/2);
-    rotateY(PI*c/10);
-    translate(-C_width/2, 0, C_width/2);
+    translate(W/2, 0, -W/2);
+    rotateY((float) (t/10000));
+    translate(-W/2, 0, W/2);
 
     // Draw the small cubes to form a big meta-cube
-    for (int x=0; x<=C_width; x+=32) {
-        for (int y=0; y<=C_width; y+=32) {
-            for (int z=0; z<=C_width; z+=32) {
-                discoCube(x, y, z, c_width, t);
+    for (int x=0; x<=W; x+=W/n) {
+        for (int y=0; y<=W; y+=W/n) {
+            for (int z=0; z<=W; z+=W/n) {
+                /*if (W > 256) { // TODO: fix this. Must go deeper ;)
+                    pushMatrix();
+                    bigCube(w, t);
+                    popMatrix();
+                } else {*/
+                    discoCube(x, y, z, w, t);
+               // }
             }
         }
     }
@@ -58,6 +83,19 @@ void drawDemo(int time) {
 
 // A disco cube is a blinking, rotating cube at x,y
 void discoCube(int x, int y, int z, int c_width, float t) {
+    // Colouring options!
+
+    //fill(255,255,255); // Plain white
+
+    //int col = (int) abs(255-(t/10)%512); // Back-and-forth grayscale
+    //fill(col, col, col);
+
+    //int col = (int) abs(255-(t/10)%512); // Back-and-forth white-colourcube
+    //fill(col+x, col+y, col+z);
+
+    fill(x, y, z); // static colorcube
+
+
     pushMatrix();
     translate(x, y, -z);
     pushMatrix();
@@ -65,7 +103,6 @@ void discoCube(int x, int y, int z, int c_width, float t) {
     box(c_width);
     translate(-x, -y);
     popMatrix();
-    lights();
     popMatrix();
 }
 
