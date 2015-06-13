@@ -34,7 +34,13 @@ void draw() {
 
     // Loading text, so that the effects don't start before the screen is actually drawn
     if (t<10) {
-    text("Loading...", 100, 100, 0);
+      String message = "Loading";
+      int phase = (int) t / 2;
+      for (int i = 0; i < phase; i++) {
+        message += '.';
+      }
+      text(message, 150, 150, 0);
+      text("Korkki & Walther", CANVAS_WIDTH - 150, CANVAS_HEIGHT - 30, 0);
     } else { // After loading period, start main draw
 
         // Define initial width of the biggest cube
@@ -82,7 +88,7 @@ void bigCube(int C_width, float t) {
     for (int x=0; x<=W; x+=W/n) {
         for (int y=0; y<=W; y+=W/n) {
             for (int z=0; z<=W; z+=W/n) {
-                if (W > 256) { // TODO: fix this. Must go deeper ;)
+                if (W > 256) {
                     pushMatrix();
                     translate(x, y, z);
                     bigCube(w, t);
