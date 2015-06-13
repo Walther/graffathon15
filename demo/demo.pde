@@ -64,6 +64,7 @@ void draw() {
 
         // End of drawing content to frame, hit the lights!
         lights();
+        if(t>60) { exit();}
     }
 }
 
