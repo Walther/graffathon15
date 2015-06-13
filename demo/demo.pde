@@ -72,9 +72,14 @@ void bigCube(int C_width, float t) {
     // Define big cube width
     int W = C_width;
     // Define amount of small cubes per side of big cube
-    int n = (int) (16 - abs(16 - (t/10)%32));
-    //int n = 8;
-    if (n == 0) { n=2; };
+    int n;
+    if (t<40) {
+        n = (int) (16 - abs(16 - (t/10)%32));
+        if (n == 0) { n=2; };
+    }
+    else {
+        n = 2;
+    }
     // Define small cube width
     int w = C_width / (n*2);
 
@@ -149,7 +154,6 @@ void discoCube(int x, int y, int z, int c_width, float t) {
         rotateY(rot+y);
         rotateZ(rot+z);
     }
-
 
     box(c_width);
     translate(-x, -y);
