@@ -82,13 +82,14 @@ void bigCube(int C_width, float t) {
     for (int x=0; x<=W; x+=W/n) {
         for (int y=0; y<=W; y+=W/n) {
             for (int z=0; z<=W; z+=W/n) {
-                /*if (W > 256) { // TODO: fix this. Must go deeper ;)
+                if (W > 256) { // TODO: fix this. Must go deeper ;)
                     pushMatrix();
+                    translate(x, y, z);
                     bigCube(w, t);
                     popMatrix();
-                } else {*/
+                } else {
                     discoCube(x, y, z, w, t);
-               // }
+                }
             }
         }
     }
