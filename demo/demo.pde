@@ -1,12 +1,19 @@
 // Korkkii & Walther @ Graffathon 2015
 
 
-int CANVAS_WIDTH = 1280;
-int CANVAS_HEIGHT = 700;
+int CANVAS_WIDTH = displayWidth;
+int CANVAS_HEIGHT = displayHeight;
+
+boolean sketchFullScreen() {
+  return true;
+}
 
 void setup() {
     // Set up the drawing area size and renderer (usually P2D or P3D,
     // respectively for accelerated 2D/3D graphics).
+    if (CANVAS_WIDTH < 1366) { CANVAS_WIDTH = 1366; };
+    if (CANVAS_HEIGHT < 768) { CANVAS_HEIGHT = 768; };
+
     size(CANVAS_WIDTH, CANVAS_HEIGHT, P3D);
     rectMode(CENTER);
 
