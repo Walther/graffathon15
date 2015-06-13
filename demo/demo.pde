@@ -94,14 +94,7 @@ void bigCube(int C_width, float t) {
     for (int x=0; x<=W; x+=W/n) {
         for (int y=0; y<=W; y+=W/n) {
             for (int z=0; z<=W; z+=W/n) {
-                if (W > 256 && t > 40) {
-                    pushMatrix();
-                    translate(x, y, z);
-                    bigCube(w, t);
-                    popMatrix();
-                } else {
-                    discoCube(x, y, z, w, t);
-                }
+                smallCube(x, y, z, w, t);
             }
         }
     }
@@ -109,7 +102,7 @@ void bigCube(int C_width, float t) {
 }
 
 // A disco cube is a blinking, rotating cube at x,y
-void discoCube(int x, int y, int z, int c_width, float t) {
+void smallCube(int x, int y, int z, int c_width, float t) {
 
     // Colouring options!
 
