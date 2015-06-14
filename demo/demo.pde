@@ -3,6 +3,7 @@
 
 int CANVAS_WIDTH = displayWidth;
 int CANVAS_HEIGHT = displayHeight;
+PShader shader;
 
 boolean sketchFullScreen() {
   return true;
@@ -17,6 +18,12 @@ void setup() {
     size(CANVAS_WIDTH, CANVAS_HEIGHT, P3D);
     rectMode(CENTER);
 
+
+    shader = loadShader("shader.glsl");
+    // Set shadertoy uniforms
+    shader.set("iResolution", (float)CANVAS_WIDTH, (float)CANVAS_HEIGHT);
+
+
     // Drawing options that don't change, modify as you wish
     frameRate(60);
     fill(255);
@@ -28,6 +35,7 @@ void draw() {
 
     // Define a useful timescale: t = seconds
     float t = (float) millis() / 1000;
+    shader.set("iGlobalTime", t);
 
     // Define colors
     background(22, 22, 22);
@@ -44,26 +52,31 @@ void draw() {
       text(collaborators, CANVAS_WIDTH - 190, CANVAS_HEIGHT - 100, 0);
     } else { // After loading period, start main draw
 
-        // Define initial width of the biggest cube
-        int W = 512;
-        // Center the big cube
-        translate(CANVAS_WIDTH/2 - W/2, 0, 0);
-        translate(0, CANVAS_HEIGHT/2 - W/2, 0);
 
-        // Zoom in and out based on tick
-        if (t>20) {
-            translate(0, 0, (512 - abs(512 - (t*100)%1024)));
+
+        if (t<60) {
+            // Define initial width of the biggest cube
+            int W = 512;
+            // Center the big cube
+            translate(CANVAS_WIDTH/2 - W/2, 0, 0);
+            translate(0, CANVAS_HEIGHT/2 - W/2, 0);
+
+            // Zoom in and out based on tick
+            if (t>20) {
+                translate(0, 0, (512 - abs(512 - (t*100)%1024)));
+            }
+            // More rotates after more time
+            /*if (t>30) {
+                rotateX(t/2);
+            }*/
+            bigCube(W, t);
+
+            // End of drawing content to frame, hit the lights!
+            lights();
         }
-        // More rotates after more time
-        /*if (t>30) {
-            rotateX(t/2);
-        }*/
-
-
-        bigCube(W, t);
-
-        // End of drawing content to frame, hit the lights!
-        lights();
+        // Shader effect! Field of menger cubes, twisting around w/ psy colors
+        if (t>60) { shader(shader); rect(CANVAS_WIDTH/2.0, CANVAS_HEIGHT/2.0, CANVAS_WIDTH, CANVAS_HEIGHT); }
+        if (t>90) { exit(); } // Thank you, please come again!
     }
 }
 
