@@ -50,11 +50,20 @@ void draw() {
         translate(CANVAS_WIDTH/2 - W/2, 0, 0);
         translate(0, CANVAS_HEIGHT/2 - W/2, 0);
 
+        // Zoom in and out based on tick
+        if (t>20) {
+            translate(0, 0, (512 - abs(512 - (t*100)%1024)));
+        }
+        // More rotates after more time
+        /*if (t>30) {
+            rotateX(t/2);
+        }*/
+
+
         bigCube(W, t);
 
         // End of drawing content to frame, hit the lights!
         lights();
-        if(t>60) { exit();}
     }
 }
 
@@ -64,20 +73,13 @@ void bigCube(int C_width, float t) {
     int W = C_width;
     // Define amount of small cubes per side of big cube
     int n;
-
-    // Zoom in and out based on tick
-    if (t>20) {
-        translate(0, 0, -100);
-        translate(0, 0, (512 - abs(512 - (t*100)%1024)));
+    if (t<40) {
+        n = (int) (16 - abs(16 - (t/10)%32));
+        if (n == 0) { n=2; };
     }
-    translate(0, 150, 0);  rotateX(t/2);
-    if (t<10) { n = 2; }
-    if (t>10) { n = 3; }
-    if (t>20) { n = 5; }
-    if (t>30) { n = 8; }
-    if (t>40) { n = 2; }
-    if (t>50) { n = 10;}
-    else { n = 2; }
+    else {
+        n = 2;
+    }
     // Define small cube width
     int w = C_width / (n*2);
 
@@ -92,13 +94,13 @@ void bigCube(int C_width, float t) {
     for (int x=0; x<=W; x+=W/n) {
         for (int y=0; y<=W; y+=W/n) {
             for (int z=0; z<=W; z+=W/n) {
-                if (W > 256 && t > 20 && t < 30) {
+                if (W > 256 && t > 40) {
                     pushMatrix();
                     translate(x, y, z);
                     bigCube(w, t);
                     popMatrix();
                 } else {
-                    smallCube(x, y, z, w, t);
+                    discoCube(x, y, z, w, t);
                 }
             }
         }
@@ -107,7 +109,7 @@ void bigCube(int C_width, float t) {
 }
 
 // A disco cube is a blinking, rotating cube at x,y
-void smallCube(int x, int y, int z, int c_width, float t) {
+void discoCube(int x, int y, int z, int c_width, float t) {
 
     // Colouring options!
 
