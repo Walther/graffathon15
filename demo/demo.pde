@@ -5,6 +5,11 @@ int CANVAS_WIDTH = displayWidth;
 int CANVAS_HEIGHT = displayHeight;
 PShader shader;
 
+import ddf.minim.*;
+
+AudioPlayer player;
+Minim minim;//audio context
+
 boolean sketchFullScreen() {
   return true;
 }
@@ -27,6 +32,10 @@ void setup() {
     // Drawing options that don't change, modify as you wish
     frameRate(60);
     fill(255);
+
+    minim = new Minim(this);
+    player = minim.loadFile("slowscape.wav");
+    player.play();
     smooth();
 
 }
@@ -76,7 +85,7 @@ void draw() {
         }
         // Shader effect! Field of menger cubes, twisting around w/ psy colors
         if (t>60) { shader(shader); rect(CANVAS_WIDTH/2.0, CANVAS_HEIGHT/2.0, CANVAS_WIDTH, CANVAS_HEIGHT); }
-        if (t>90) { exit(); } // Thank you, please come again!
+        if (t>80) { exit(); } // Thank you, please come again!
     }
 }
 
