@@ -1,5 +1,7 @@
 # graffathon15
-Demoscene "demo" at http://graffathon.fi/ 2015
 
-Mostly about colorful cubes in a grayscale world.
+Demoscene "demo" entry coded and published at http://graffathon.fi/ 2015
 
+Colorful cubes in a grayscale world.
+
+![Screenshot](colorful_cubes.png)
