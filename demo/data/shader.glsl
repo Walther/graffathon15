@@ -94,7 +94,7 @@ void mainImage()
 
     vec3 color = rayMarch(camera, dir);
 
-    gl_FragColor = vec4(color, 1.0);
+    gl_FragColor = vec4(0.1 + 0.9*color, 1.0);
 }
 
 void main(void) {
